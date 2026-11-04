@@ -1922,13 +1922,14 @@ S.home={cls:'hbg',render:()=>{const reg=st.device.registered;return `<div class=
  </header>
  <section class="hb-tt"><h1>오늘도 안심하고 달려요.</h1><p>운전의 시작부터 끝까지, 알아서가 함께할게요.</p></section>
  <section class="hb-grid">${TILES.map(tileHTML).join('')}
-  <div class="hb-score" ${reg?'data-go="score"':'data-needreg'} role="button" aria-label="AI 운전점수"><div class="hb-ring"><div>${HI.car}<small>AI 운전점수</small>${reg?`<b>${st.score||92}<span>점</span></b>`:'<b style="font-size:30px;color:#9AA3B2">--</b>'}</div></div></div>
+  <div class="hb-score" ${!reg?'data-needreg':st.noRecord?'data-norec':'data-go="score"'} role="button" aria-label="AI 운전점수"><div class="hb-ring"><div>${HI.car}<small>AI 운전점수</small>${reg&&!st.noRecord?`<b>${st.score||92}<span>점</span></b>`:'<b style="font-size:30px;color:#9AA3B2">--</b>'}</div></div></div>
  </section>
  <section class="hb-ask"><h2>무엇이 궁금하세요?</h2>
   <div class="hb-chat" id="chatInput">${HI.bot}<span class="ph">궁금한 내용을 입력하세요...</span><span class="hb-send">${HI.up}</span></div>
  </section></div>`},
  mount(el){
   el.querySelector('#chatInput').onclick=e=>{e.stopPropagation();openChatbot()};
+  el.querySelectorAll('[data-norec]').forEach(b=>b.onclick=e=>{e.stopPropagation();toast('아직 주행 기록이 없어요 · 주행을 시작하면 운전점수가 계산돼요')});
   el.querySelectorAll('[data-needreg]').forEach(b=>b.onclick=e=>{e.stopPropagation();modal({title:'블랙박스를 등록해 주세요',body:'<div style="text-align:center">블랙박스를 등록하면<br>설정·업데이트·AI 운전점수를 이용할 수 있어요.</div>',ok:'등록하기',onOk:()=>go('reg0')})});
   if(st.mode==='away')el.querySelectorAll('[data-wifi]').forEach(b=>{b.removeAttribute('data-wifi');b.setAttribute('aria-disabled','true');b.onclick=e=>{e.stopPropagation();toast('블랙박스가 주변에 없어요 · 차량 가까이에서 이용해 주세요')}});
  }};
@@ -1951,7 +1952,7 @@ const AM=[
 S.allMenu={cls:'white',render:()=>hdr('더보기')+`<div class="body" style="padding:8px 16px 40px;display:flex;flex-direction:column;gap:26px">
  ${AM.filter(([t])=>st.device.registered||t==='차량 관리 · 커뮤니티').map(([t,rows])=>`<div class="am-sec"><h2 class="sec-title">${t}</h2>${rows.map(r=>{const off=st.mode==='away'&&r[3].startsWith('data-wifi');
   return `<div class="f-row" ${off?'aria-disabled="true" data-away style="opacity:.38;cursor:default"':r[3]}><span class="ic">${r[0]}</span><div style="flex:1;display:flex;flex-direction:column;gap:4px"><b style="font-size:16px">${r[1]}${r[1]==='알림'&&unread()?'<i class="am-dot"></i>':''}</b><span style="font-size:14px;color:var(--sub)">${r[2]}</span></div>${ICON.chev}</div>`}).join('')}</div>`).join('')}
- <div class="mdemo" style="margin-top:0"><b style="font-size:13px">시연: 기기 등록 상태</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 14px">${[['full','기기 등록됨'],['unreg','기기 미등록']].map(h=>`<button class="dmb ${(st.device.registered?'full':'unreg')===h[0]?'on':''}" data-hs="${h[0]}">${h[1]}</button>`).join('')}</div><b style="font-size:13px">시연: 차량 상태 전환</b><p class="small muted" style="margin:4px 0 10px">모바일 시연용 버튼 · 실제 앱에는 없어요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${modeBtns()}</div>${typeof st.score==='number'?`<p class="small muted" style="margin:12px 0 6px">AI 운전점수</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${[92,78,64].map(v=>`<button class="dmb ${st.score===v?'on':''}" data-score="${v}">${v}점</button>`).join('')}</div>`:''}</div>
+ <div class="mdemo" style="margin-top:0"><b style="font-size:13px">시연: 홈 상태</b><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0 14px">${[['unreg','기기 미등록'],['norec','기록 없음'],['full','기록 있음']].map(h=>`<button class="dmb ${HS()===h[0]?'on':''}" style="font-size:12.5px;padding:0 2px" data-hs="${h[0]}">${h[1]}</button>`).join('')}</div><b style="font-size:13px">시연: 차량 상태 전환</b><p class="small muted" style="margin:4px 0 10px">모바일 시연용 버튼 · 실제 앱에는 없어요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${modeBtns()}</div>${typeof st.score==='number'?`<p class="small muted" style="margin:12px 0 6px">AI 운전점수</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${[92,78,64].map(v=>`<button class="dmb ${st.score===v?'on':''}" data-score="${v}">${v}점</button>`).join('')}</div>`:''}</div>
  </div>`,
  mount(el){el.querySelectorAll('[data-away]').forEach(b=>b.onclick=()=>toast('블랙박스가 주변에 없어요 · 차량 가까이에서 이용해 주세요'))}};
 
