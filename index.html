@@ -1936,8 +1936,6 @@ S.home={cls:'hbg',render:()=>{const reg=st.device.registered;return `<div class=
 /* ---- 홈 '더보기': 홈에 없는 메뉴 전체 목록 (사업부 안 홈 '내 차의 기록' 리스트 형식) ---- */
 const AM=[
  ['내 차의 기록',[
-  [ICON.route,'주행 리포트','최근 주행 경로와 운전 점수 확인','data-go="drive"'],
-  [ICON.P,'주차 리포트','주차 중 있었던 이벤트 확인','data-go="park"'],
   [ICON.doc,'주행 일지','월별 주행 거리와 운행 기록 확인','data-go="reports"'],
   [ICON.car(),'주정차 위험안내','현 위치 주정차 단속 정보 안내','data-go="parking"'],
   [ICON.pin,'내가 가본 곳','기록된 방문 장소 확인','data-go="visited"']]],
@@ -1951,15 +1949,26 @@ const AM=[
   [ICON.bell,'알림','받은 알림 모아 보기','data-go="noti"']]],
 ];
 S.allMenu={cls:'white',render:()=>hdr('더보기')+`<div class="body" style="padding:8px 16px 40px;display:flex;flex-direction:column;gap:26px">
- ${AM.map(([t,rows])=>`<div class="am-sec"><h2 class="sec-title">${t}</h2>${rows.map(r=>{const off=st.mode==='away'&&r[3].startsWith('data-wifi');
+ ${AM.filter(([t])=>st.device.registered||t==='차량 관리 · 커뮤니티').map(([t,rows])=>`<div class="am-sec"><h2 class="sec-title">${t}</h2>${rows.map(r=>{const off=st.mode==='away'&&r[3].startsWith('data-wifi');
   return `<div class="f-row" ${off?'aria-disabled="true" data-away style="opacity:.38;cursor:default"':r[3]}><span class="ic">${r[0]}</span><div style="flex:1;display:flex;flex-direction:column;gap:4px"><b style="font-size:16px">${r[1]}${r[1]==='알림'&&unread()?'<i class="am-dot"></i>':''}</b><span style="font-size:14px;color:var(--sub)">${r[2]}</span></div>${ICON.chev}</div>`}).join('')}</div>`).join('')}
- <div class="mdemo" style="margin-top:0"><b style="font-size:13px">시연: 차량 상태 전환</b><p class="small muted" style="margin:4px 0 10px">모바일 시연용 버튼 · 실제 앱에는 없어요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${modeBtns()}</div>${typeof st.score==='number'?`<p class="small muted" style="margin:12px 0 6px">AI 운전점수</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${[92,78,64].map(v=>`<button class="dmb ${st.score===v?'on':''}" data-score="${v}">${v}점</button>`).join('')}</div>`:''}</div>
+ <div class="mdemo" style="margin-top:0"><b style="font-size:13px">시연: 기기 등록 상태</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 14px">${[['full','기기 등록됨'],['unreg','기기 미등록']].map(h=>`<button class="dmb ${(st.device.registered?'full':'unreg')===h[0]?'on':''}" data-hs="${h[0]}">${h[1]}</button>`).join('')}</div><b style="font-size:13px">시연: 차량 상태 전환</b><p class="small muted" style="margin:4px 0 10px">모바일 시연용 버튼 · 실제 앱에는 없어요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${modeBtns()}</div>${typeof st.score==='number'?`<p class="small muted" style="margin:12px 0 6px">AI 운전점수</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${[92,78,64].map(v=>`<button class="dmb ${st.score===v?'on':''}" data-score="${v}">${v}점</button>`).join('')}</div>`:''}</div>
  </div>`,
  mount(el){el.querySelectorAll('[data-away]').forEach(b=>b.onclick=()=>toast('블랙박스가 주변에 없어요 · 차량 가까이에서 이용해 주세요'))}};
 
 /* 차량 상태 전환 시 더보기 목록도 즉시 반영 */
 const _setMode0=setMode;setMode=function(m){_setMode0(m);if(cur().id==='allMenu')render('fade')};
-document.addEventListener('click',e=>{if(e.target.closest('[data-score]')&&cur().id==='allMenu')setTimeout(()=>render('fade'),0)});
+document.addEventListener('click',e=>{if(e.target.closest('[data-score],[data-hs]')&&cur().id==='allMenu')setTimeout(()=>render('fade'),0)});
+
+/* ---- 메뉴 > 기기 관리: '블랙박스 등록하기' → '기기 연결하기' ---- */
+{const r0=S.more.render;S.more.render=p=>r0(p).replace(/블랙박스 등록하기<\/b>/g,'기기 연결하기</b>')}
+
+/* ---- 가치봄: 상단(상태바)·타이틀·검색 영역 색상을 헤더 색상으로 통일 ---- */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.page:has(.gb-head)::before{content:'';position:absolute;left:0;right:0;top:0;height:47px;z-index:6;background:#fff;pointer-events:none}
+.page:has(.gb-head):has(.map)::before{background:#F5F6F8}
+@media (max-width:440px){.page:has(.gb-head)::before{height:env(safe-area-inset-top,0px)}}
+</style>`);
+{const r0=S.gb.render;S.gb.render=p=>r0(p).replace('background:transparent"><div class="gb-head" style="background:rgba(245,246,248,.96)"','background:#F5F6F8"><div class="gb-head" style="background:#F5F6F8"').replace('<div style="background:rgba(245,246,248,.96);padding-bottom:4px">','<div style="background:#F5F6F8;padding-bottom:4px">')}
 document.title='Fine AI Service DRH';
 
 render('fade');
