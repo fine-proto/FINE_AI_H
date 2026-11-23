@@ -3581,9 +3581,10 @@ S.vault.mount=el=>{const c=cur();const p=c.p||(c.p={});const tbar=$('#tabbar');i
 /* 보관함을 벗어나면 탭바 복구 */
 {const _r=render;render=function(d){const t=$('#tabbar');if(t)t.style.display='';return _r.apply(this,arguments)}}
 /* @@dz08b.js@@ */
+
 /* @@dz12.js@@ */
 /* ================= [디자인 반영 11.23] 12 기기 관리 — 피그마 12_기기관리 최신본 기준 =================
-   기기 이름 수정 제거 · 주행정보 가져오기(N 새 정보 배지) · 연결된 차량 수정(12-2 변경 확인) · 차량 별명 입력(최대 15자) · 기기 삭제(12-1-1) */
+   기기 이름 수정 제거 · 주행정보 가져오기(누락 데이터 있을 때만 · 가져오면 숨김) · 연결된 차량 수정(12-2 변경 확인) · 차량 별명 입력칸 바로 편집(최대 15자 · 완료/밖 탭 시 저장) · 기기 삭제(12-1-1) */
 document.head.insertAdjacentHTML('beforeend',`<style>
 .page.d12pg{background:#F2F3F7}
 .d12{padding:16px 15px 24px;background:#F2F3F7}
@@ -3603,7 +3604,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .d12-car b{display:block;font-size:15px;font-weight:700;color:#111}.d12-car small{display:block;font-size:12.5px;color:#555;margin-top:2px}
 .d12-car button{margin-left:auto;height:32px;padding:0 12px;border-radius:99px;border:1px solid #DADDE2;background:#fff;font-size:13px;color:#333}
 .d12-nf{display:flex;align-items:center;height:48px;border:1px solid #DADDE2;border-radius:12px;padding:0 12px 0 16px;cursor:pointer;background:#fff}
-.d12-nf span{flex:1;font-size:15px;color:#111}.d12-nf span.ph{color:#A3A8AF}
+.d12-nf input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;color:#111;font-family:inherit;height:100%}.d12-nf input::placeholder{color:#A3A8AF}.d12-nf:focus-within{border-color:#EA580C}.d12-nf .pen{display:flex;cursor:pointer}
 .d12-del{position:sticky;bottom:0;padding:12px 15px 20px;background:#F2F3F7}
 .d12-del button{width:100%;height:50px;border-radius:14px;background:#fff;color:#D92D20;font-size:15px;font-weight:700}
 .d12-sh .hd{display:flex;align-items:center;justify-content:space-between;padding:4px 20px 6px}
@@ -3613,32 +3614,29 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 const D12PEN='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8 16l1.2-4Z" fill="#111"/></svg>';
 st.carNick=st.carNick||'';if(st.devNew===undefined)st.devNew=true;
+const d12Nk=()=>(st.carNick||'').trim()||(st.carName&&st.carName!==st.device.car?st.carName:'');
 const d12Esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-S.device={cls:'gray d12pg',render:()=>{const d=st.device,nk=(st.carNick||'').trim();
+S.device={cls:'gray d12pg',render:()=>{const d=st.device,nk=d12Nk();
  return hdr('기기 관리')+`<div class="body d12"><div class="d12-cd">
   <div class="d12-top"><span>📷</span><b>${d.model||'X600 AI'}</b></div>
   <div class="d12-kv"><span>SSID</span><span>FineVu_X600AI_1c5e13</span></div>
   <div class="d12-kv"><span>펌웨어</span><b>1.0.001</b></div>
   <button class="d12-bt" data-wifi="fw">업데이트</button>
-  <button class="d12-bt" id="d12Imp">${st.devNew?'<i class="d12-n">N</i>':''}주행정보 가져오기</button>
+  ${st.devNew?'<button class="d12-bt" id="d12Imp"><i class="d12-n">N</i>주행정보 가져오기</button>':''}
   <div class="d12-hr"></div>
   <div class="d12-lb">연결된 차량</div>
   <div class="d12-car"><i>🚗</i><div><b>${d12Esc(d.car)}</b><small>핸즈프리 · 연결됨</small></div><button id="chgCar">수정</button></div>
   <div class="d12-hr"></div>
   <div class="d12-lb">차량 별명</div>
-  <div class="d12-nf" id="d12Nick" role="button" aria-label="차량 별명 수정"><span class="${nk?'':'ph'}">${d12Esc(nk||d.car)}</span>${D12PEN}</div>
+  <label class="d12-nf" id="d12Nick"><input id="d12In" maxlength="15" value="${d12Esc(nk)}" placeholder="${d12Esc(d.car)}" enterkeyhint="done" aria-label="차량 별명"><span class="pen">${D12PEN}</span></label>
  </div></div><div class="d12-del"><button id="delDev">기기 삭제</button></div>`},
  mount(el){
-  el.querySelector('#d12Imp').onclick=()=>{if(!st.devNew){toast('새로 가져올 주행정보가 없어요');return}toast('주행정보를 가져오고 있어요');setTimeout(()=>{st.devNew=false;if(cur().id==='device')render('fade');toast('블랙박스의 주행정보를 가져왔어요')},1200)};
-  el.querySelector('#d12Nick').onclick=()=>{const nk=(st.carNick||'').trim();
-   sheet(`<div class="d12-sh"><div class="hd"><h3>차량 별명</h3><button id="d12X" aria-label="닫기" style="background:none;padding:6px"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11" stroke="#333" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
-    <div class="bd"><p>연결된 차량의 별명을 입력해 주세요.</p><input class="input" id="d12In" maxlength="15" value="${d12Esc(nk)}" placeholder="${d12Esc(st.device.car)}" style="height:54px"><div class="cnt"><span id="d12C">${nk.length}</span>/15</div><button class="btn btn-primary" id="d12Ok" style="width:100%;margin-top:10px">저장</button></div></div>`,L=>{
-    const i=L.querySelector('#d12In');i.oninput=()=>{L.querySelector('#d12C').textContent=i.value.length};
-    L.querySelector('#d12X').onclick=()=>{$('#layer').innerHTML=''};
-    L.querySelector('#d12Ok').onclick=()=>{const v=i.value.trim();st.carNick=v===st.device.car?'':v;st.carName=st.carNick||st.device.car;$('#layer').innerHTML='';render('fade');toast(v?'차량 별명을 저장했어요':'연결된 차량 이름으로 되돌렸어요')};
-    setTimeout(()=>{i.focus();i.select()},250)})};
+  const imp=el.querySelector('#d12Imp');if(imp)imp.onclick=()=>{toast('주행정보를 가져오고 있어요');setTimeout(()=>{st.devNew=false;if(cur().id==='device')render('fade');toast('누락된 주행정보를 모두 가져왔어요')},1200)};
+  const ni=el.querySelector('#d12In'),save=()=>{const v=ni.value.trim(),was=d12Nk();if(v===was)return;st.carNick=v===st.device.car?'':v;st.carName=st.carNick||st.device.car;ni.value=st.carNick;toast(st.carNick?'차량 별명을 저장했어요':'연결된 차량 이름으로 되돌렸어요')};
+  ni.addEventListener('blur',save);ni.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();ni.blur()}});
+  el.querySelector('#d12Nick .pen').onclick=e=>{e.preventDefault();ni.focus();const L=ni.value.length;ni.setSelectionRange(L,L)};
   el.querySelector('#chgCar').onclick=()=>sheet(`<h3>내 차량 블루투스를 선택해 주세요</h3>${[['SONATA_DN8','핸즈프리 · 최근 연결: 오늘'],['KIA EV3','핸즈프리 · 최근 연결: 3일 전'],['Galaxy Buds2','이어폰 · 최근 연결: 어제']].map(b=>`<div class="list-row" data-bt="${b[0]}"><span style="font-size:20px">${b[0].startsWith('Galaxy')?'🎧':'🚗'}</span><div style="flex:1"><b>${b[0]}</b><div class="small muted">${b[1]}</div></div></div>`).join('')}`,L=>L.querySelectorAll('[data-bt]').forEach(r=>r.onclick=()=>{const n=r.dataset.bt;$('#layer').innerHTML='';if(n===st.device.car){toast('현재 연결된 차량이에요');return}
-   modal({title:'연결 차량 변경',q:`${n}로 변경할까요?`,body:`기존 차량(${st.device.car}) 등록은 해제돼요.<br>블랙박스는 ${n}와 연결돼요.`,ok:'변경하기',onOk:()=>{st.device.car=n;if(!(st.carNick||'').trim())st.carName=n;render('fade');toast('연결 차량을 변경했어요')}})}));
+   modal({title:'연결 차량 변경',q:`${n}로 변경할까요?`,body:`기존 차량(${st.device.car}) 등록은 해제돼요.<br>블랙박스는 ${n}와 연결돼요.`,ok:'변경하기',onOk:()=>{st.device.car=n;st.carNick='';st.carName=n;render('fade');toast('연결 차량을 변경했어요')}})}));
   el.querySelector('#delDev').onclick=()=>modal({title:'블랙박스 기기 삭제',q:'등록된 블랙박스를 삭제할까요?',body:'블랙박스와 연결된 차량 등록이 함께 해제돼요.<br>지금까지의 기록과 보관함 파일은 유지돼요.',ok:'기기 삭제',okCls:'mb-danger',onOk:()=>{st.device.registered=false;back();toast('기기를 삭제했어요')}})}};
 /* @@dz12.js@@ */
 render('fade');
