@@ -386,7 +386,7 @@ S.reports={cls:'white',render:p=>{const f=p.f||'all';const rows=[['10월 7일','
 const timeline=(arr)=>arr.map((t,i)=>`<div class="row" style="align-items:flex-start;gap:14px;padding:10px 0"><span style="width:44px;font-size:13px;font-weight:700">${t[0]}</span><span style="width:10px;height:10px;border-radius:50%;margin-top:5px;background:${t[2]?'#E5484D':'#C9CED6'}"></span><div style="flex:1"><b style="font-size:14px">${t[1]}</b>${t[3]?`<div class="small muted">${t[3]}</div>`:''}</div>${t[2]?`<span class="btn-sm" data-go="player" ${gp({t:'충격 영상'})}>영상보기</span>`:''}</div>`).join('');
 S.drive={cls:'white',render:()=>hdr('주행 리포트')+`<div class="body pad"><div class="small muted">2026.09.07 · 오전 07:20 – 08:07</div><div class="row" style="gap:10px;margin:14px 0">${[['주행 거리','27 km'],['주행 시간','47 분']].map(x=>`<div style="flex:1;background:var(--bg2);border-radius:12px;padding:14px"><div class="small muted">${x[0]}</div><b style="font-size:20px">${x[1]}</b></div>`).join('')}</div>
  <div style="background:var(--redbg);color:#B42318;border-radius:12px;padding:14px;font-size:14px;font-weight:700;line-height:20px">주행 중 충격이 감지됐어요.<br>영상을 확인해 주세요.</div>
- <div style="margin-top:20px;background:var(--peach);border-radius:14px;padding:18px" data-go="score" class="tap"><div class="small">이번 주행 점수</div><div class="row" style="justify-content:space-between"><b style="font-size:17px">매우 안전한 운전</b><b style="font-size:34px">97점</b></div><div class="row" style="justify-content:space-between;margin-top:10px;font-size:13px">${[['급제동','0회'],['급가속','2회'],['급회전','0회'],['과속','6 km']].map(x=>`<span>${x[0]} <b>${x[1]}</b></span>`).join('')}</div></div>
+ <div style="margin-top:20px;background:var(--peach);border-radius:14px;padding:18px" data-go="score" class="tap"><div class="small">이번 주행 점수</div><div class="row" style="justify-content:space-between"><b style="font-size:17px">매우 안전한 운전</b><b style="font-size:34px">97점</b></div><div class="row" style="justify-content:space-between;margin-top:10px;font-size:13px">${[['급제동','0회'],['급가속','2회'],['급회전','0회'],['과속','3회']].map(x=>`<span>${x[0]} <b>${x[1]}</b></span>`).join('')}</div></div>
  <h3 style="font-size:16px;margin:22px 0 6px">주행 타임라인</h3>${timeline([['07:20','주행 시작',0,'경기 성남시 성남대로 123'],['07:35','중간 충격 감지',1],['08:07','주행 종료',0,'서울시 영등포구 여의로 12']])}</div>`};
 S.park={cls:'white',render:()=>hdr('주차 리포트')+`<div class="body pad"><div class="small muted">2026.09.06 – 09.07</div><div style="margin-top:14px;background:var(--redbg);color:#B42318;border-radius:12px;padding:14px;font-size:14px;font-weight:700;line-height:20px">주차 중 충격이 2건 감지됐어요.<br>차량 상태를 꼭 확인해 주세요.</div>
  <div class="row" style="gap:10px;margin:14px 0">${[['주차 시간','9시간 10분'],['감지된 충격','2회']].map(x=>`<div style="flex:1;background:var(--bg2);border-radius:12px;padding:14px"><div class="small muted">${x[0]}</div><b style="font-size:20px">${x[1]}</b></div>`).join('')}</div>
@@ -796,7 +796,7 @@ const vvMount=(el,kind)=>el.querySelectorAll('[data-vv]').forEach(b=>b.onclick=(
 S.drive={cls:'white',render:()=>hdr('주행 리포트')+`<div class="body pad"><div class="small muted">2026.09.07 · 오전 07:20 – 08:07</div><div class="row" style="gap:10px;margin:14px 0">${[['주행 거리','27 km'],['주행 시간','47 분']].map(x=>`<div style="flex:1;background:var(--bg2);border-radius:12px;padding:14px"><div class="small muted">${x[0]}</div><b style="font-size:20px">${x[1]}</b></div>`).join('')}</div>
  ${mapBox(200,routeSVG)}
  <div style="margin:14px 0;background:var(--redbg);color:#B42318;border-radius:12px;padding:14px;font-size:14px;font-weight:700;line-height:20px">주행 중 충격이 감지됐어요.<br>영상을 확인해 주세요.</div>
- <div style="background:var(--peach);border-radius:14px;padding:16px"><div class="small muted">이번 주행 점수</div><div class="row" style="justify-content:space-between"><b style="font-size:17px">매우 안전한 운전</b><b style="font-size:28px">97점</b></div><div class="row" style="justify-content:space-between;margin-top:10px;font-size:12px">${[['급제동','0회'],['급가속','2회'],['급회전','0회'],['과속','6 km']].map(x=>`<span>${x[0]} <b>${x[1]}</b></span>`).join('')}</div></div>
+ <div style="background:var(--peach);border-radius:14px;padding:16px"><div class="small muted">이번 주행 점수</div><div class="row" style="justify-content:space-between"><b style="font-size:17px">매우 안전한 운전</b><b style="font-size:28px">97점</b></div><div class="row" style="justify-content:space-between;margin-top:10px;font-size:12px">${[['급제동','0회'],['급가속','2회'],['급회전','0회'],['과속','3회']].map(x=>`<span>${x[0]} <b>${x[1]}</b></span>`).join('')}</div></div>
  <h3 style="font-size:16px;margin:22px 0 8px">주행 타임라인</h3>${tl([['07:20','주행 시작',0,'경기 성남시 성남대로 123'],['07:35','중간 충격 감지',1],['08:07','주행 종료',0,'서울시 영등포구 여의로 12']])}<div style="height:20px"></div></div>`+fixb(`<button class="btn btn-sub" id="exLog">운행일지 내보내기</button>`),
  mount(el){vvMount(el,'drive');el.querySelector('#exLog').onclick=()=>sheet(`<h3>운행일지 내보내기</h3><p class="small muted" style="padding:0 20px 10px">선택한 주행 기록을 파일로 내보내요.</p>${['PDF 파일','Excel 파일'].map(t=>`<div class="list-row" data-x="${t}">${t}</div>`).join('')}`,L=>L.querySelectorAll('[data-x]').forEach(r=>r.onclick=()=>{$('#layer').innerHTML='';shareSheet('운행일지 '+r.dataset.x)}))}};
 S.park={cls:'white',render:()=>hdr('주차 리포트')+`<div class="body pad"><div class="small muted">2026.09.06 – 09.07</div><div style="margin:14px 0;background:var(--redbg);color:#B42318;border-radius:12px;padding:14px;font-size:14px;font-weight:700;line-height:20px">주차 중 충격이 2건 감지됐어요.<br>차량 상태를 꼭 확인해 주세요.</div>
@@ -2325,7 +2325,7 @@ S.drive={cls:'white',render:()=>{const ev=st.sc.driveEv!==false;
   <div class="dz-kv"><span>주행 거리</span><b>27 km</b></div><div class="dz-kv"><span>주행 시간</span><b>47분</b></div></div>
  <div class="dz-map" style="background-image:url(${DZ_MAP03.drive})"></div>
  <div class="dz-score"><div><b>이번 주행 점수</b><p>매우 안전한 운전</p></div><em>97점</em></div>
- <div class="dz-box">${[['급제동','17회'],['급가속','17회'],['급회전','12회'],['과속','6 km']].map(x=>`<div class="dz-kv"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>
+ <div class="dz-box">${[['급제동','17회'],['급가속','17회'],['급회전','12회'],['과속','3회']].map(x=>`<div class="dz-kv"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>
  <div class="dz-h3">주행 타임라인</div>
  ${dzTL([['s','07:20','주행 시작','경기 성남시 성남대로 123'],...(ev?[['m','07:20','중간 충격 감지','','07:35']]:[]),['e','07:20','주행 종료','서울시 영등포구 여의로 12']])}</div>`},
  mount(el){vvMount(el,'drive')}};
@@ -3581,6 +3581,66 @@ S.vault.mount=el=>{const c=cur();const p=c.p||(c.p={});const tbar=$('#tabbar');i
 /* 보관함을 벗어나면 탭바 복구 */
 {const _r=render;render=function(d){const t=$('#tabbar');if(t)t.style.display='';return _r.apply(this,arguments)}}
 /* @@dz08b.js@@ */
+/* @@dz12.js@@ */
+/* ================= [디자인 반영 11.23] 12 기기 관리 — 피그마 12_기기관리 최신본 기준 =================
+   기기 이름 수정 제거 · 주행정보 가져오기(N 새 정보 배지) · 연결된 차량 수정(12-2 변경 확인) · 차량 별명 입력(최대 15자) · 기기 삭제(12-1-1) */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.page.d12pg{background:#F2F3F7}
+.d12{padding:16px 15px 24px;background:#F2F3F7}
+.d12-cd{background:#fff;border:1px solid #E6E8EC;border-radius:16px;padding:16px}
+.d12-top{display:flex;align-items:center;gap:12px}
+.d12-top span{width:56px;height:56px;border-radius:14px;background:#F2F3F5;display:flex;align-items:center;justify-content:center;font-size:22px}
+.d12-top b{font-size:16px;font-weight:700;color:#111}
+.d12-kv{display:flex;justify-content:space-between;font-size:14px;color:#333;margin-top:12px}
+.d12-kv span:last-child{color:#555}.d12-kv b{font-weight:700;color:#111}
+.d12-bt{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border-radius:14px;background:#E6E7EB;font-size:14px;font-weight:700;color:#111;margin-top:14px}
+.d12-bt+.d12-bt{margin-top:14px}
+.d12-n{width:16px;height:16px;border-radius:50%;background:#D7261E;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.d12-hr{height:1px;background:#ECEDF0;margin:14px 0}
+.d12-lb{font-size:13px;color:#555;margin-bottom:12px}
+.d12-car{display:flex;align-items:center;gap:12px;background:#F5F6F8;border-radius:12px;padding:11px 12px}
+.d12-car i{width:40px;height:40px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-style:normal}
+.d12-car b{display:block;font-size:15px;font-weight:700;color:#111}.d12-car small{display:block;font-size:12.5px;color:#555;margin-top:2px}
+.d12-car button{margin-left:auto;height:32px;padding:0 12px;border-radius:99px;border:1px solid #DADDE2;background:#fff;font-size:13px;color:#333}
+.d12-nf{display:flex;align-items:center;height:48px;border:1px solid #DADDE2;border-radius:12px;padding:0 12px 0 16px;cursor:pointer;background:#fff}
+.d12-nf span{flex:1;font-size:15px;color:#111}.d12-nf span.ph{color:#A3A8AF}
+.d12-del{position:sticky;bottom:0;padding:12px 15px 20px;background:#F2F3F7}
+.d12-del button{width:100%;height:50px;border-radius:14px;background:#fff;color:#D92D20;font-size:15px;font-weight:700}
+.d12-sh .hd{display:flex;align-items:center;justify-content:space-between;padding:4px 20px 6px}
+.d12-sh .hd h3{font-size:18px;font-weight:700;margin:0}
+.d12-sh .bd{padding:6px 20px 18px}.d12-sh .bd p{font-size:14px;color:#6B7280;margin:0 0 14px}
+.d12-sh .cnt{text-align:right;font-size:12px;color:#9AA0A6;margin-top:6px}
+</style>`);
+const D12PEN='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8 16l1.2-4Z" fill="#111"/></svg>';
+st.carNick=st.carNick||'';if(st.devNew===undefined)st.devNew=true;
+const d12Esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+S.device={cls:'gray d12pg',render:()=>{const d=st.device,nk=(st.carNick||'').trim();
+ return hdr('기기 관리')+`<div class="body d12"><div class="d12-cd">
+  <div class="d12-top"><span>📷</span><b>${d.model||'X600 AI'}</b></div>
+  <div class="d12-kv"><span>SSID</span><span>FineVu_X600AI_1c5e13</span></div>
+  <div class="d12-kv"><span>펌웨어</span><b>1.0.001</b></div>
+  <button class="d12-bt" data-wifi="fw">업데이트</button>
+  <button class="d12-bt" id="d12Imp">${st.devNew?'<i class="d12-n">N</i>':''}주행정보 가져오기</button>
+  <div class="d12-hr"></div>
+  <div class="d12-lb">연결된 차량</div>
+  <div class="d12-car"><i>🚗</i><div><b>${d12Esc(d.car)}</b><small>핸즈프리 · 연결됨</small></div><button id="chgCar">수정</button></div>
+  <div class="d12-hr"></div>
+  <div class="d12-lb">차량 별명</div>
+  <div class="d12-nf" id="d12Nick" role="button" aria-label="차량 별명 수정"><span class="${nk?'':'ph'}">${d12Esc(nk||d.car)}</span>${D12PEN}</div>
+ </div></div><div class="d12-del"><button id="delDev">기기 삭제</button></div>`},
+ mount(el){
+  el.querySelector('#d12Imp').onclick=()=>{if(!st.devNew){toast('새로 가져올 주행정보가 없어요');return}toast('주행정보를 가져오고 있어요');setTimeout(()=>{st.devNew=false;if(cur().id==='device')render('fade');toast('블랙박스의 주행정보를 가져왔어요')},1200)};
+  el.querySelector('#d12Nick').onclick=()=>{const nk=(st.carNick||'').trim();
+   sheet(`<div class="d12-sh"><div class="hd"><h3>차량 별명</h3><button id="d12X" aria-label="닫기" style="background:none;padding:6px"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1 1 11" stroke="#333" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
+    <div class="bd"><p>연결된 차량의 별명을 입력해 주세요.</p><input class="input" id="d12In" maxlength="15" value="${d12Esc(nk)}" placeholder="${d12Esc(st.device.car)}" style="height:54px"><div class="cnt"><span id="d12C">${nk.length}</span>/15</div><button class="btn btn-primary" id="d12Ok" style="width:100%;margin-top:10px">저장</button></div></div>`,L=>{
+    const i=L.querySelector('#d12In');i.oninput=()=>{L.querySelector('#d12C').textContent=i.value.length};
+    L.querySelector('#d12X').onclick=()=>{$('#layer').innerHTML=''};
+    L.querySelector('#d12Ok').onclick=()=>{const v=i.value.trim();st.carNick=v===st.device.car?'':v;st.carName=st.carNick||st.device.car;$('#layer').innerHTML='';render('fade');toast(v?'차량 별명을 저장했어요':'연결된 차량 이름으로 되돌렸어요')};
+    setTimeout(()=>{i.focus();i.select()},250)})};
+  el.querySelector('#chgCar').onclick=()=>sheet(`<h3>내 차량 블루투스를 선택해 주세요</h3>${[['SONATA_DN8','핸즈프리 · 최근 연결: 오늘'],['KIA EV3','핸즈프리 · 최근 연결: 3일 전'],['Galaxy Buds2','이어폰 · 최근 연결: 어제']].map(b=>`<div class="list-row" data-bt="${b[0]}"><span style="font-size:20px">${b[0].startsWith('Galaxy')?'🎧':'🚗'}</span><div style="flex:1"><b>${b[0]}</b><div class="small muted">${b[1]}</div></div></div>`).join('')}`,L=>L.querySelectorAll('[data-bt]').forEach(r=>r.onclick=()=>{const n=r.dataset.bt;$('#layer').innerHTML='';if(n===st.device.car){toast('현재 연결된 차량이에요');return}
+   modal({title:'연결 차량 변경',q:`${n}로 변경할까요?`,body:`기존 차량(${st.device.car}) 등록은 해제돼요.<br>블랙박스는 ${n}와 연결돼요.`,ok:'변경하기',onOk:()=>{st.device.car=n;if(!(st.carNick||'').trim())st.carName=n;render('fade');toast('연결 차량을 변경했어요')}})}));
+  el.querySelector('#delDev').onclick=()=>modal({title:'블랙박스 기기 삭제',q:'등록된 블랙박스를 삭제할까요?',body:'블랙박스와 연결된 차량 등록이 함께 해제돼요.<br>지금까지의 기록과 보관함 파일은 유지돼요.',ok:'기기 삭제',okCls:'mb-danger',onOk:()=>{st.device.registered=false;back();toast('기기를 삭제했어요')}})}};
+/* @@dz12.js@@ */
 render('fade');
 
 </script>
